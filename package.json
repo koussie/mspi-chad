@@ -1,0 +1,46 @@
+{
+  "name": "mspi-chad-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official website of the Ministry of Public Security and Immigration - Chad",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
+    "@netlify/plugin-nextjs": "^5.15.8",
+    "@supabase/supabase-js": "^2.95.3",
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.344.0",
+    "nanoid": "^5.0.9",
+    "next": "^14.2.18",
+    "next-auth": "^4.24.10",
+    "next-intl": "^3.23.5",
+    "otpauth": "^9.3.4",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.2",
+    "server-only": "^0.0.1",
+    "sharp": "^0.33.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.1",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.18",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.3"
+  }
+}

@@ -1,4 +1,4 @@
-// File: /Users/mac/Downloads/project 2/src/app/[locale]/(public)/organization/page.tsx
+// File: /Users/mac/DernierVirage/mspi-chad/src/app/[locale]/(public)/organization/page.tsx
 import * as entry from '../../../../../../src/app/[locale]/(public)/organization/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

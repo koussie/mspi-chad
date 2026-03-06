@@ -931,6 +931,9 @@ video {
 .h-5 {
   height: 1.25rem;
 }
+.h-56 {
+  height: 14rem;
+}
 .h-6 {
   height: 1.5rem;
 }
@@ -939,6 +942,9 @@ video {
 }
 .h-7 {
   height: 1.75rem;
+}
+.h-72 {
+  height: 18rem;
 }
 .h-8 {
   height: 2rem;
@@ -1018,6 +1024,9 @@ video {
 .max-w-7xl {
   max-width: 80rem;
 }
+.max-w-\[260px\] {
+  max-width: 260px;
+}
 .max-w-none {
   max-width: none;
 }
@@ -1025,6 +1034,9 @@ video {
   flex: 1 1 0%;
 }
 .flex-shrink-0 {
+  flex-shrink: 0;
+}
+.shrink-0 {
   flex-shrink: 0;
 }
 .flex-grow {
@@ -1095,6 +1107,9 @@ video {
 .gap-4 {
   gap: 1rem;
 }
+.gap-5 {
+  gap: 1.25rem;
+}
 .gap-6 {
   gap: 1.5rem;
 }
@@ -1103,6 +1118,11 @@ video {
 }
 .gap-px {
   gap: 1px;
+}
+.space-y-16 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(4rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(4rem * var(--tw-space-y-reverse));
 }
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -1225,6 +1245,9 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(41 37 36 / var(--tw-border-opacity, 1));
 }
+.border-white\/20 {
+  border-color: rgb(255 255 255 / 0.2);
+}
 .bg-amber-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(217 119 6 / var(--tw-bg-opacity, 1));
@@ -1292,6 +1315,12 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+.bg-white\/10 {
+  background-color: rgb(255 255 255 / 0.1);
+}
+.bg-white\/90 {
+  background-color: rgb(255 255 255 / 0.9);
 }
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
@@ -1393,6 +1422,9 @@ video {
 }
 .p-4 {
   padding: 1rem;
+}
+.p-5 {
+  padding: 1.25rem;
 }
 .p-6 {
   padding: 1.5rem;
@@ -2007,6 +2039,10 @@ html[dir='rtl'] .rtl-chevron-flip {
     height: 5rem;
   }
 
+  .md\:h-64 {
+    height: 16rem;
+  }
+
   .md\:h-\[600px\] {
     height: 600px;
   }
@@ -2033,6 +2069,10 @@ html[dir='rtl'] .rtl-chevron-flip {
 
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-\[260px_1fr\] {
+    grid-template-columns: 260px 1fr;
   }
 
   .md\:justify-center {
@@ -2165,6 +2205,10 @@ html[dir='rtl'] .rtl-chevron-flip {
 
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-\[1fr_300px\] {
+    grid-template-columns: 1fr 300px;
   }
 
   .lg\:gap-16 {

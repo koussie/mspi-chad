@@ -114,17 +114,61 @@ export default async function OrganizationPage({
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {departments.map((dept) => (
-                <div
-                  key={dept.id}
-                  className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow"
-                >
-                  <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
-                    {locale === 'fr' ? dept.name_fr : dept.name_ar}
-                  </h3>
-                  <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
-                    {locale === 'fr' ? dept.description_fr : dept.description_ar}
-                  </p>
-                </div>
+                dept.id === 'police' ? (
+                  <Link
+                    key={dept.id}
+                    href={`/${locale}/organisation/police-nationale`}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow block"
+                    aria-label={locale === 'fr' ? 'Voir la page Police Nationale' : 'عرض صفحة الشرطة الوطنية'}
+                  >
+                    <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.name_fr : dept.name_ar}
+                    </h3>
+                    <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.description_fr : dept.description_ar}
+                    </p>
+                  </Link>
+                ) : dept.id === 'gendarmerie' ? (
+                  <Link
+                    key={dept.id}
+                    href={`/${locale}/organisation/gendarmerie-nationale`}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow block"
+                    aria-label={locale === 'fr' ? 'Voir la page Gendarmerie Nationale' : 'عرض صفحة الدرك الوطني'}
+                  >
+                    <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.name_fr : dept.name_ar}
+                    </h3>
+                    <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.description_fr : dept.description_ar}
+                    </p>
+                  </Link>
+                ) : dept.id === 'garde' ? (
+                  <Link
+                    key={dept.id}
+                    href={`/${locale}/organisation/garde-nationale-nomade`}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow block"
+                    aria-label={locale === 'fr' ? 'Voir la page Garde Nationale et Nomade du Tchad' : 'عرض صفحة الحرس الوطني والبدوي التشادي'}
+                  >
+                    <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.name_fr : dept.name_ar}
+                    </h3>
+                    <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.description_fr : dept.description_ar}
+                    </p>
+                  </Link>
+                ) : (
+                  <div
+                    key={dept.id}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow"
+                  >
+                    <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.name_fr : dept.name_ar}
+                    </h3>
+                    <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {locale === 'fr' ? dept.description_fr : dept.description_ar}
+                    </p>
+                  </div>
+                )
               ))}
             </div>
           </div>

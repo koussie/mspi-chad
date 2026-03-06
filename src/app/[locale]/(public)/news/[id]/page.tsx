@@ -1,142 +1,135 @@
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Calendar } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import MediaVideoCard from '@/components/MediaVideoCard';
-import { officialVideoDescriptionsByYoutubeId } from '@/data/video-descriptions';
+import { getNewsBySlugOrId } from '@/data/news';
 
 export const dynamic = 'force-dynamic';
 
+function extractYoutubeId(url: string): string | null {
+  if (url.includes('youtu.be/')) {
+    const [, id] = url.split('youtu.be/');
+    return id?.split('?')[0] || null;
+  }
+
+  const match = url.match(/[?&]v=([^&]+)/);
+  return match?.[1] || null;
+}
+
 export default async function NewsDetailPage({
-  params,
+  params: { locale, id },
 }: {
-  params: Promise<{ locale: string; id: string }>;
+  params: { locale: string; id: string };
 }) {
-  const { locale, id } = await params;
   unstable_setRequestLocale(locale);
   const t = await getTranslations();
+  const isAr = locale === 'ar';
 
-  const { data: news } = await supabase
-    .from('news')
-    .select()
-    .eq('id', id)
-    .eq('status', 'PUBLISHED')
-    .maybeSingle();
+  const news = getNewsBySlugOrId(id);
 
   if (!news) {
     notFound();
   }
 
-  const images = news.images ? (Array.isArray(news.images) ? news.images : []) : [];
-  const youtubeId = news.youtube_video_id;
-  const officialVideoDescription = youtubeId
-    ? officialVideoDescriptionsByYoutubeId[youtubeId]?.[locale === 'ar' ? 'ar' : 'fr']
-    : undefined;
+  const youtubeId = news.video?.type === 'youtube' ? extractYoutubeId(news.video.url) : null;
 
   return (
     <div>
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-white" dir={isAr ? 'rtl' : 'ltr'}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
-            href={`/${locale}/news`}
-            className="inline-flex items-center gap-2 text-amber-700 hover:text-amber-800 font-semibold mb-8 transition-colors"
+            href={`/${locale}/actualites`}
+            className={`inline-flex items-center gap-2 text-amber-700 hover:text-amber-800 font-semibold mb-8 transition-colors ${isAr ? 'flex-row-reverse' : ''}`}
           >
-            <ArrowLeft className={`w-5 h-5 ${locale === 'ar' ? 'rotate-180' : ''}`} />
-            <span>{locale === 'fr' ? 'Retour aux actualités' : 'العودة إلى الأخبار'}</span>
+            <ArrowLeft className={`w-5 h-5 ${isAr ? 'rotate-180' : ''}`} />
+            <span>{t('news.backToNews')}</span>
           </Link>
 
-          {news.cover_image && (
-            <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl mb-8">
-              <img
-                src={news.cover_image}
-                alt={locale === 'fr' ? news.title_fr : news.title_ar}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
+          <div className="aspect-video w-full overflow-hidden rounded-xl shadow-xl mb-8 relative bg-gray-100">
+            <Image
+              src={news.coverImage || '/images/facade-ministere.jpg'}
+              alt={isAr ? news.title.ar : news.title.fr}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              priority
+            />
+          </div>
 
-          <div className={`flex items-center gap-3 text-sm text-amber-700 font-semibold uppercase tracking-wide mb-6 ${locale === 'ar' ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center gap-3 text-sm text-amber-700 font-semibold uppercase tracking-wide mb-6 ${isAr ? 'flex-row-reverse' : ''}`}>
             <Calendar className="w-5 h-5" />
             <span>
-              {news.published_at &&
-                new Date(news.published_at).toLocaleDateString(
-                  locale === 'fr' ? 'fr-FR' : 'ar-TN',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }
-                )}
+              {new Date(news.date).toLocaleDateString(isAr ? 'ar-TN' : 'fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
             </span>
           </div>
 
-          <h1
-            className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-slate-900 leading-tight ${locale === 'ar' ? 'text-right' : 'text-left'}`}
-          >
-            {locale === 'fr' ? news.title_fr : news.title_ar}
+          <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-slate-900 leading-tight ${isAr ? 'text-right' : 'text-left'}`}>
+            {isAr ? news.title.ar : news.title.fr}
           </h1>
 
           <div
-            className={`prose prose-lg max-w-none text-gray-700 leading-relaxed mb-12 ${locale === 'ar' ? 'text-right' : 'text-left'}`}
+            className={`prose prose-lg max-w-none text-gray-700 leading-relaxed mb-12 ${isAr ? 'text-right' : 'text-left'}`}
             style={{ whiteSpace: 'pre-line' }}
           >
-            {locale === 'fr' ? news.content_fr : news.content_ar}
+            {isAr ? news.content.ar : news.content.fr}
           </div>
 
-          {youtubeId && (
-            <div className="mb-12">
-              <h2 className={`text-2xl md:text-3xl font-bold mb-6 text-slate-900 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
-                {t('news.officialVisitTitle')}
+          {news.video && (
+            <section className="mb-12" aria-labelledby="news-video-title">
+              <h2 id="news-video-title" className={`text-2xl md:text-3xl font-bold mb-6 text-slate-900 ${isAr ? 'text-right' : 'text-left'}`}>
+                {t('news.video')}
               </h2>
-              <div className="max-w-3xl">
-                <MediaVideoCard
-                  locale={locale}
-                  video={{
-                    id: news.id,
-                    title_fr: news.title_fr,
-                    title_ar: news.title_ar,
-                    youtube_id: youtubeId,
-                    published_at: news.published_at,
-                  }}
-                  showTitle={false}
-                  showDate={false}
-                  descriptionMode="none"
-                />
-              </div>
-              {officialVideoDescription && (
-                <p
-                  dir={locale === 'ar' ? 'rtl' : 'ltr'}
-                  className={`mt-6 text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}
-                  style={{ whiteSpace: 'pre-line' }}
+
+              {news.video.type === 'youtube' && youtubeId ? (
+                <div className="aspect-video w-full overflow-hidden rounded-xl border border-gray-200 shadow-lg bg-black">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${youtubeId}`}
+                    title={isAr ? news.title.ar : news.title.fr}
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                </div>
+              ) : news.video.type === 'mp4' ? (
+                <video
+                  controls
+                  preload="metadata"
+                  className="w-full rounded-xl border border-gray-200 shadow-lg bg-black"
+                  poster={news.video.thumbnail}
                 >
-                  {officialVideoDescription}
-                </p>
-              )}
-            </div>
+                  <source src={news.video.url} type="video/mp4" />
+                  {isAr ? 'متصفحك لا يدعم تشغيل الفيديو.' : "Votre navigateur ne prend pas en charge la lecture video."}
+                </video>
+              ) : null}
+            </section>
           )}
 
-          {images && images.length > 1 && (
-            <div>
-              <h2 className={`text-2xl md:text-3xl font-bold mb-6 text-slate-900 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
-                {locale === 'fr' ? 'Galerie photos' : 'معرض الصور'}
+          {news.gallery && news.gallery.length > 0 && (
+            <section aria-labelledby="news-gallery-title">
+              <h2 id="news-gallery-title" className={`text-2xl md:text-3xl font-bold mb-6 text-slate-900 ${isAr ? 'text-right' : 'text-left'}`}>
+                {t('news.gallery')}
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
-                {images.map((image: string, index: number) => (
-                  <div
-                    key={index}
-                    className="aspect-video overflow-hidden rounded-lg shadow-lg bg-gray-200"
-                  >
-                    <img
+                {news.gallery.map((image, index) => (
+                  <div key={`${image}-${index}`} className="aspect-video overflow-hidden rounded-lg shadow-lg bg-gray-200 relative">
+                    <Image
                       src={image}
-                      alt={`${locale === 'fr' ? 'Photo' : 'صورة'} ${index + 1}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      alt={`${isAr ? 'صورة' : 'Photo'} ${index + 1}`}
+                      fill
                       loading="lazy"
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
           )}
         </div>
       </section>
@@ -144,10 +137,10 @@ export default async function NewsDetailPage({
       <section className="py-12 bg-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Link
-            href={`/${locale}/news`}
+            href={`/${locale}/actualites`}
             className="inline-block px-8 py-4 bg-slate-900 text-white font-semibold uppercase tracking-wide hover:bg-slate-800 transition-colors rounded-lg shadow-lg"
           >
-            {locale === 'fr' ? 'Voir toutes les actualités' : 'عرض جميع الأخبار'}
+            {t('news.latestNews')}
           </Link>
         </div>
       </section>

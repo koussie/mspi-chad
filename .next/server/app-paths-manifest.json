@@ -1,8 +1,8 @@
 {
   "/[locale]/(public)/page": "app/[locale]/(public)/page.js",
-  "/[locale]/(public)/organisation/police-nationale/page": "app/[locale]/(public)/organisation/police-nationale/page.js",
-  "/[locale]/(public)/organisation/garde-nationale-nomade/page": "app/[locale]/(public)/organisation/garde-nationale-nomade/page.js",
+  "/[locale]/(public)/media/page": "app/[locale]/(public)/media/page.js",
+  "/[locale]/(public)/about/page": "app/[locale]/(public)/about/page.js",
   "/[locale]/(public)/organization/page": "app/[locale]/(public)/organization/page.js",
   "/[locale]/(public)/news/page": "app/[locale]/(public)/news/page.js",
-  "/[locale]/(public)/organisation/gendarmerie-nationale/page": "app/[locale]/(public)/organisation/gendarmerie-nationale/page.js"
+  "/[locale]/(public)/publications/page": "app/[locale]/(public)/publications/page.js"
 }

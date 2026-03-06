@@ -4,6 +4,8 @@ import { ChevronRight } from 'lucide-react';
 import OrganizationChart from '@/components/OrganizationChart';
 import FormerMinistersTable from '@/components/FormerMinistersTable';
 import { departments, cabinetMembers } from '@/data/organization';
+import DepartmentCardLink from '@/components/DepartmentCardLink';
+import OrganizationScrollRestore from '@/components/OrganizationScrollRestore';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,6 +37,7 @@ export default async function OrganizationPage({
 
   return (
     <div>
+      <OrganizationScrollRestore />
       <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-32 md:py-40 overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.08] bg-center bg-no-repeat"
@@ -108,18 +111,18 @@ export default async function OrganizationPage({
             </div>
           </div>
 
-          <div className="mb-20">
+          <div id="directions-services" className="mb-20 scroll-mt-28">
             <h2 className={`text-3xl md:text-4xl font-bold uppercase tracking-wide text-slate-900 mb-8 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
               {t('organization.departments.title')}
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {departments.map((dept) => (
                 dept.id === 'police' ? (
-                  <Link
+                  <DepartmentCardLink
                     key={dept.id}
                     href={`/${locale}/organisation/police-nationale`}
-                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow block"
-                    aria-label={locale === 'fr' ? 'Voir la page Police Nationale' : 'عرض صفحة الشرطة الوطنية'}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:border-amber-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 block cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-700/35 focus-visible:ring-offset-2"
+                    ariaLabel={locale === 'fr' ? 'Voir la page Police Nationale' : 'عرض صفحة الشرطة الوطنية'}
                   >
                     <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.name_fr : dept.name_ar}
@@ -127,13 +130,13 @@ export default async function OrganizationPage({
                     <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.description_fr : dept.description_ar}
                     </p>
-                  </Link>
+                  </DepartmentCardLink>
                 ) : dept.id === 'gendarmerie' ? (
-                  <Link
+                  <DepartmentCardLink
                     key={dept.id}
                     href={`/${locale}/organisation/gendarmerie-nationale`}
-                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow block"
-                    aria-label={locale === 'fr' ? 'Voir la page Gendarmerie Nationale' : 'عرض صفحة الدرك الوطني'}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:border-amber-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 block cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-700/35 focus-visible:ring-offset-2"
+                    ariaLabel={locale === 'fr' ? 'Voir la page Gendarmerie Nationale' : 'عرض صفحة الدرك الوطني'}
                   >
                     <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.name_fr : dept.name_ar}
@@ -141,13 +144,13 @@ export default async function OrganizationPage({
                     <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.description_fr : dept.description_ar}
                     </p>
-                  </Link>
+                  </DepartmentCardLink>
                 ) : dept.id === 'garde' ? (
-                  <Link
+                  <DepartmentCardLink
                     key={dept.id}
                     href={`/${locale}/organisation/garde-nationale-nomade`}
-                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow block"
-                    aria-label={locale === 'fr' ? 'Voir la page Garde Nationale et Nomade du Tchad' : 'عرض صفحة الحرس الوطني والبدوي التشادي'}
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:border-amber-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 block cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-700/35 focus-visible:ring-offset-2"
+                    ariaLabel={locale === 'fr' ? 'Voir la page Garde Nationale et Nomade du Tchad' : 'عرض صفحة الحرس الوطني والبدوي التشادي'}
                   >
                     <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.name_fr : dept.name_ar}
@@ -155,11 +158,11 @@ export default async function OrganizationPage({
                     <p className={`text-gray-700 leading-relaxed ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.description_fr : dept.description_ar}
                     </p>
-                  </Link>
+                  </DepartmentCardLink>
                 ) : (
                   <div
                     key={dept.id}
-                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow"
+                    className="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-600 hover:shadow-lg transition-shadow duration-200"
                   >
                     <h3 className={`text-xl font-bold mb-3 ${locale === 'ar' ? 'text-right' : 'text-left'}`}>
                       {locale === 'fr' ? dept.name_fr : dept.name_ar}

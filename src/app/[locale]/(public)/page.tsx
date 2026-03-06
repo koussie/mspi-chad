@@ -4,19 +4,15 @@ import { ArrowRight, Quote } from 'lucide-react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import KeyFiguresSection from '@/components/KeyFiguresSection';
+import { getAllNews, type NewsItem } from '@/data/news';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage({ params: { locale } }: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
+  const news = getAllNews().slice(0, 3);
 
-  const [newsResult, publicationsResult] = await Promise.all([
-    supabase
-      .from('news')
-      .select()
-      .eq('status', 'PUBLISHED')
-      .order('published_at', { ascending: false })
-      .limit(3),
+  const [publicationsResult] = await Promise.all([
     supabase
       .from('publications')
       .select()
@@ -24,7 +20,6 @@ export default async function HomePage({ params: { locale } }: { params: { local
       .limit(3),
   ]);
 
-  const news = newsResult.data || [];
   const publications = publicationsResult.data || [];
 
   return (
@@ -42,7 +37,7 @@ async function HomePageContent({
   publications,
 }: {
   locale: string;
-  news: any[];
+  news: NewsItem[];
   publications: any[];
 }) {
   const t = await getTranslations();
@@ -91,14 +86,14 @@ async function HomePageContent({
             {news.map((item) => (
               <Link
                 key={item.id}
-                href={`/${locale}/news/${item.id}`}
+                href={`/${locale}/actualites/${item.slug}`}
                 className="group relative h-96 overflow-hidden bg-black"
               >
-                {item.cover_image && (
+                {item.coverImage && (
                   <>
                     <img
-                      src={item.cover_image}
-                      alt={locale === 'fr' ? item.title_fr : item.title_ar}
+                      src={item.coverImage}
+                      alt={locale === 'fr' ? item.title.fr : item.title.ar}
                       className="w-full h-full object-cover opacity-90 group-hover:opacity-80 transition-opacity"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -106,13 +101,12 @@ async function HomePageContent({
                 )}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <h3 className="text-lg md:text-xl font-bold mb-2 line-clamp-3">
-                    {locale === 'fr' ? item.title_fr : item.title_ar}
+                    {locale === 'fr' ? item.title.fr : item.title.ar}
                   </h3>
                   <p className="text-sm text-white/80">
-                    {item.published_at &&
-                      new Date(item.published_at).toLocaleDateString(
-                        locale === 'fr' ? 'fr-FR' : 'ar-TN'
-                      )}
+                    {new Date(item.date).toLocaleDateString(
+                      locale === 'fr' ? 'fr-FR' : 'ar-TN'
+                    )}
                   </p>
                 </div>
               </Link>
@@ -120,7 +114,7 @@ async function HomePageContent({
           </div>
           <div className="text-center mt-12">
             <Link
-              href={`/${locale}/news`}
+              href={`/${locale}/actualites`}
               className="inline-block px-8 py-4 bg-white text-black font-semibold uppercase tracking-wide hover:bg-gray-100 transition-colors"
             >
               {t('news.latestNews')}

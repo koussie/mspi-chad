@@ -143,7 +143,11 @@
     "subtitle": "Dernières nouvelles et communiqués",
     "latestNews": "Dernières Actualités",
     "publishedOn": "Publié le",
-    "officialVisitTitle": "Visite officielle du Ministre à l’Unité Spéciale d’Intervention de la Police (ISIP)"
+    "officialVisitTitle": "Visite officielle du Ministre à l’Unité Spéciale d’Intervention de la Police (ISIP)",
+    "readMore": "Lire la suite",
+    "backToNews": "Retour aux actualités",
+    "video": "Vidéo",
+    "gallery": "Galerie"
   },
   "media": {
     "title": "Médiathèque",

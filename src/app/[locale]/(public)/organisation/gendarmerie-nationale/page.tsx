@@ -141,7 +141,7 @@ export default async function GendarmerieNationalePage({
               {isAr ? 'الرئيسية' : 'Accueil'}
             </Link>
             <ChevronRight className={`w-4 h-4 ${isAr ? 'rotate-180' : ''}`} />
-            <Link href={`/${locale}/organization`} className="hover:text-blue-300 transition-colors">
+            <Link href={`/${locale}/organization#directions-services`} className="hover:text-blue-300 transition-colors">
               {t('organization.departments.title')}
             </Link>
             <ChevronRight className={`w-4 h-4 ${isAr ? 'rotate-180' : ''}`} />
